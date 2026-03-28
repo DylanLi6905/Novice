@@ -1,7 +1,6 @@
 {
-  "name": "api",
-  "version": "1.0.0",
-  "description": "",
+  "name": "@novice/api",
+  "private": true,
   "type": "module",
   "scripts": {
     "dev": "tsx server.ts"
@@ -11,9 +10,5 @@
   },
   "devDependencies": {
     "tsx": "^4.20.6"
-  },
-  "main": "server.ts",
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  }
 }
