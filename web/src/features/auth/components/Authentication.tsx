@@ -1,20 +1,43 @@
-import { createContext, useState, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 
-type User = {name:string} | null; // null being not logged in
-
+type User = {
+  id: string
+  email: string
+}
 type AuthContextValue = {
-  currentUser: User;
-  setCurrentUser: (user: User) => void;
-};
+  user: User | null
+  setUser: (user: User | null) => void
+}
+
 
 const CurrentUserContext = createContext<AuthContextValue| undefined>(undefined);
 
-export default function Authentication({children}: {children: ReactNode}){
-  const [currentUser, setCurrentUser] = useState<User>(null); // needs <User> because (null) is too vague
+export function Authentication({children}: {children: ReactNode}){
+  const [user, setUser] = useState<User | null>(null); 
+
+  /*
+  const fetchUser = async() => {
+      
+      const res = await getCurrentUser();
+
+      if (!res.data) {
+        setUser(null)
+      } else {
+        setUser({
+          id: res.data.user_id,
+          email: res.data.email
+        })
+      }
+      
+  }
+  useEffect(() => {
+        void fetchUser();
+      }, []);
+  */ 
   return (
-    <CurrentUserContext value = {{currentUser,setCurrentUser}}>
+    <CurrentUserContext.Provider value = {{user,setUser}}>
       {children}
-    </CurrentUserContext>
+    </CurrentUserContext.Provider>
   )
 }
 
