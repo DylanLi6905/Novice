@@ -1,3 +1,12 @@
-CREATE TABLE testTable (
-    id INT
+CREATE TABLE users (
+  user_id UUID PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+  email VARCHAR(255) NOT NULL UNIQUE,
+  provider_id VARCHAR(255) NOT NULL UNIQUE
+);
+
+CREATE TABLE sessions (
+  session_id UUID PRIMARY KEY NOT NULL,
+  user_id UUID NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+  expires_at TIMESTAMPTZ NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );

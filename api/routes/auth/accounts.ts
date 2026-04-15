@@ -16,7 +16,7 @@ authRouter.get("/login",(_req,res) => {
     googleAuthUrl.searchParams.set("response_type","code");
 
     //tells google you're using openid for identity support
-    googleAuthUrl.searchParams.set("scope", "openid");
+    googleAuthUrl.searchParams.set("scope", "openid profile email");
 
     res.redirect(googleAuthUrl.toString());
 });
@@ -51,8 +51,20 @@ authRouter.get("/callback/google", async (req,res) => {
 
     // decode tokens
     const tokens = await tokenResponse.json();
+    const userResponse = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${tokens.access_token}`,
+            Accept: "application/json"
+        }
+    });
 
-    // send tokens back
-    res.json(tokens)
-
+    const googleUser = await userResponse.json();
+    
+    res.json ({
+        email: googleUser.email,
+        id: googleUser.sub,
+        displayName: googleUser.name,
+    });
+    return
 });
