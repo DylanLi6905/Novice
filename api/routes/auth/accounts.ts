@@ -12,11 +12,47 @@ authRouter.get("/login",(_req,res) => {
     googleAuthUrl.searchParams.set("redirect_uri", process.env.GOOGLE_REDIRECT_URI!);
 
     //tells google what kind of oauth response you want back
-    //"code" means: after the user logs in, send mt backend an authorization code
+    //"code" means: after the user logs in, send my backend an authorization code
     googleAuthUrl.searchParams.set("response_type","code");
 
     //tells google you're using openid for identity support
     googleAuthUrl.searchParams.set("scope", "openid");
 
     res.redirect(googleAuthUrl.toString());
+});
+
+authRouter.get("/callback/google", async (req,res) => {
+    // { code : abc123 } -> abc123
+    const { code } = req.query;
+
+    if (!code || typeof code !== "string") {
+        res.status(400).json({error: "Missing code parameter"});
+        return
+    }
+
+    const tokenResponse = await fetch("https://oauth2.googleapis.com/token", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: new URLSearchParams({
+            code,
+            client_id: process.env.GOOGLE_CLIENT_ID!,
+            client_secret: process.env.GOOGLE_CLIENT_SECRET!,
+            redirect_uri: process.env.GOOGLE_REDIRECT_URI!,
+            grant_type: "authorization_code",
+        })
+    });
+
+    if (!tokenResponse.ok) {
+        res.status(400).json({error:"Failed to get access token"});
+        return
+    }
+
+    // decode tokens
+    const tokens = await tokenResponse.json();
+
+    // send tokens back
+    res.json(tokens)
+
 });
