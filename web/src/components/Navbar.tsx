@@ -20,6 +20,7 @@ export default function Navbar() {
                     {link.label}
                 </a>
             ))}
+            <a href="/api/auth/login">Login</a>
         </nav>
     )
 }
