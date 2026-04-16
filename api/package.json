@@ -6,11 +6,15 @@
     "dev": "tsx server.ts"
   },
   "dependencies": {
+    "cors": "^2.8.5",
+    "cookie-parser": "^1.4.7",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "postgres": "^3.4.8"
   },
   "devDependencies": {
+    "@types/cookie-parser": "^1.4.10",
+    "@types/cors": "^2.8.19",
     "tsx": "^4.20.6"
   }
 }

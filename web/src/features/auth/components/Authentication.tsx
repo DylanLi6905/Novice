@@ -1,5 +1,8 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 
+//will delete after i migrate to using openapi
+import { getCurrentUser } from "../api/getCurrentUser";
+
 type User = {
   id: string
   email: string
@@ -15,17 +18,17 @@ const CurrentUserContext = createContext<AuthContextValue| undefined>(undefined)
 export function Authentication({children}: {children: ReactNode}){
   const [user, setUser] = useState<User | null>(null); 
 
-  /*
+  
   const fetchUser = async() => {
       
       const res = await getCurrentUser();
 
-      if (!res.data) {
+      if (!res) {
         setUser(null)
       } else {
         setUser({
-          id: res.data.user_id,
-          email: res.data.email
+          id: res.user_id,
+          email: res.email
         })
       }
       
@@ -33,7 +36,7 @@ export function Authentication({children}: {children: ReactNode}){
   useEffect(() => {
         void fetchUser();
       }, []);
-  */ 
+  
   return (
     <CurrentUserContext.Provider value = {{user,setUser}}>
       {children}
