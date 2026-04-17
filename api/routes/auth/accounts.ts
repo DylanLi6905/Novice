@@ -127,7 +127,7 @@ authRouter.get("/me", async (req,res)=> {
 
     const [user] = await db `
         SELECT * FROM users
-        WHERE userId = ${session.user_id}
+        WHERE user_id = ${session.user_id}
         LIMIT 1
     `;
 
