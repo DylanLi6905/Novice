@@ -1,3 +1,5 @@
+import { useAuth } from "../features/auth/components/Authentication";
+
 const navbarLinks= [
     {label: "Home", href: "/"},
     {label: "Become an Expert", href: "/expert"},
@@ -6,6 +8,7 @@ const navbarLinks= [
 ]
 
 export default function Navbar() {
+    const { user } = useAuth()
     return (
         <nav
             style={{
@@ -20,7 +23,7 @@ export default function Navbar() {
                     {link.label}
                 </a>
             ))}
-            <a href="/api/auth/login">Login</a>
+            {user ? (<span>Logged in</span>) : (<a href="http://localhost:8001/api/auth/login">Login</a>)}
         </nav>
     )
 }

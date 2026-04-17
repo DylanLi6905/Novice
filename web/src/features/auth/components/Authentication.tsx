@@ -12,12 +12,10 @@ type AuthContextValue = {
   setUser: (user: User | null) => void
 }
 
-
 const CurrentUserContext = createContext<AuthContextValue| undefined>(undefined);
 
 export function Authentication({children}: {children: ReactNode}){
   const [user, setUser] = useState<User | null>(null); 
-
   
   const fetchUser = async() => {
       
@@ -42,5 +40,13 @@ export function Authentication({children}: {children: ReactNode}){
       {children}
     </CurrentUserContext.Provider>
   )
+}
+
+export function useAuth() {
+  const context = useContext(CurrentUserContext)
+  if (!context) {
+    throw new Error ("useAuth must be used within Authentication")
+  }
+  return context;
 }
 
