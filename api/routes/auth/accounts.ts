@@ -142,3 +142,22 @@ authRouter.get("/me", async (req,res)=> {
         provider_id: user.provider_id,
     });
 });
+
+authRouter.post("/logout", async (req, res) => {
+    const sessionId = req.cookies.session_id;
+
+    if (sessionId) {
+        await db`
+            DELETE FROM sessions
+            WHERE session_id = ${sessionId}
+        `;
+    }
+
+    res.clearCookie("session_id", {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+    });
+
+    res.status(200).json({ success: true });
+});

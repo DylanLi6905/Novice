@@ -8,7 +8,18 @@ const navbarLinks= [
 ]
 
 export default function Navbar() {
-    const { user } = useAuth()
+    const { user, setUser } = useAuth()
+
+    const handleLogout = async () => {
+        await fetch("http://localhost:8001/api/auth/logout", {
+            method: "POST",
+            credentials: "include",
+        });
+
+        setUser(null);
+        window.location.href = "/";
+    };
+
     return (
         <nav
             style={{
@@ -23,7 +34,16 @@ export default function Navbar() {
                     {link.label}
                 </a>
             ))}
-            {user ? (<span>Logged in</span>) : (<a href="http://localhost:8001/api/auth/login">Login</a>)}
+            {user ? (
+                <>
+                    <span>Logged in</span>
+                    <button onClick={() => void handleLogout()} type="button">
+                        Logout
+                    </button>
+                </>
+            ) : (
+                <a href="http://localhost:8001/api/auth/login">Login</a>
+            )}
         </nav>
     )
 }
