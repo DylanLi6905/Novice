@@ -1,29 +1,53 @@
+//using an object instead of a string like "SWE at Company"
+//means the UI can format it however it wants
+//like bold the company, grey out dates, etc.
+export interface WorkExperience {
+  company: string;
+  role: string;
+  startDate: string; // YYYY-MM
+  endDate: string | 'Present';
+  description?: string;
+}
+
+export interface Education {
+  school: string;
+  degree: string;
+  year: number;
+}
+
+export type ExpertAvailability = 'available' | 'limited' | 'unavailable';
+
 export interface Expert {
-    id: string; //unique ID to identify the expert
+  id: string; //unique ID to identify the expert
 
-    //basic personal info
-    name: string;
-    
-    //professional info
-    title: string; //ex: "Software Engineer"
-    company: string;
-    work_experience: string[]; //list of past work experience
-    education: string[];
+  // Card + profile basics
+  name: string;
+  //slug is a short readable version of a title used in urls to tell us what the page is about. 
+  //Ex: "jon-jones-ufc" instead of "expert/1234"
+  slug?: string; 
+  avatarUrl: string;
 
-    //profile info
-    bio: string; //short description
-    avatar: string; //URL to profile picture
+  // Card-first summary line
+  // Examples:
+  // "Worked at UFC"
+  // "Champion"
+  // "Expert in Mixed Martial Arts"
+  headline?: string;
 
+  // Optional fallback fields in case some data is still in the old shape.
+  title?: string;
+  company?: string;
 
-    //metrics
-    rating: number; //avg rating from 0-5
-    numReviews: number;
-    minutes_coached: number; //total minutes coached on the platform
+  rating: number;
+  reviewCount: number;
+  availability?: ExpertAvailability;
+  availabilityLabel?: string; //custom label like "This week" or "2 spots left"
 
-    //availability
-    //future task: replace with calendar integration like calendly
-    isAvailable: boolean; //whether they are currently available for calls
-    availableTimes: string[]; //list of available times (YYYY-MM-DD) 
-
-
+  // Profile page fields
+  bio: string;
+  expertise: string[];
+  workExperience: WorkExperience[];
+  education?: Education[];
+  minutesCoached: number;
+  availableTimes: string[];
 }
