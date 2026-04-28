@@ -2,12 +2,11 @@ import "dotenv/config";
 import cors from "cors";
 import express from 'express'
 import cookieParser from "cookie-parser";
-import { authRouter } from "./routes/auth/accounts.js";
+import { authRouter } from "./routes/auth/googleAuth.js";
+import { userRouter } from "./routes/user.js";
 
-import {initTRPC} from  "@trpc/server"
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
-
-const t = initTRPC.create()
+import { t } from "./trpc.js";
 
 // query getting data
 // mutation for modifying data
@@ -20,10 +19,11 @@ const appRouter = t.router({
       if (typeof v === "string") return v
 
     throw new Error("Invalid input: Expected String")
-  }).mutation(req => {
-    console.log("Client says ${req.input}")
+  }).mutation(({ input }) => {
+    console.log(`Client says ${input}`)
     return true
-  })
+  }),
+  user: userRouter,
 })
 
 
@@ -36,9 +36,11 @@ app.use(cors({
   credentials: true,
 }))
 
-app.use("/trpc", createExpressMiddleware({router: appRouter}))
-
 app.use(cookieParser())
+app.use("/trpc", createExpressMiddleware({
+  router: appRouter,
+  createContext: ({ req, res }) => ({ req, res }),
+}))
 app.use("/api/auth", authRouter);
 
 app.get('/api/hello', (_req, res) => {

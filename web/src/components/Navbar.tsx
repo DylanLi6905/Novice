@@ -1,4 +1,5 @@
 import { useAuth } from "../features/auth/components/Authentication";
+import { trpcClient } from "../trpcClient";
 
 const navbarLinks= [
     {label: "Home", href: "/"},
@@ -11,13 +12,15 @@ export default function Navbar() {
     const { user, setUser } = useAuth()
 
     const handleLogout = async () => {
-        await fetch("http://localhost:5555/api/auth/logout", {
-            method: "POST",
-            credentials: "include",
-        });
+        await trpcClient.user.logout.mutate();
 
         setUser(null);
         window.location.href = "/";
+    };
+
+    const handleLogin = async () => {
+        const response = await trpcClient.user.oauthRedirectUrl.query();
+        window.location.href = response.oauthRedirectUrl;
     };
 
     return (
@@ -42,7 +45,9 @@ export default function Navbar() {
                     </button>
                 </>
             ) : (
-                <a href="http://localhost:5555/api/auth/login">Login</a>
+                <button onClick={() => void handleLogin()} type="button">
+                    Login
+                </button>
             )}
         </nav>
     )

@@ -1,7 +1,5 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-
-//will delete after i migrate to using openapi
-import { getCurrentUser } from "../api/getCurrentUser";
+import { trpcClient } from "../../../trpcClient";
 
 type User = {
   id: string
@@ -18,8 +16,7 @@ export function Authentication({children}: {children: ReactNode}){
   const [user, setUser] = useState<User | null>(null); 
   
   const fetchUser = async() => {
-      
-      const res = await getCurrentUser();
+      const res = await trpcClient.user.authMe.query();
 
       if (!res) {
         setUser(null)
@@ -49,4 +46,3 @@ export function useAuth() {
   }
   return context;
 }
-

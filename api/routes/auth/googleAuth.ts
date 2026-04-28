@@ -4,25 +4,8 @@ import crypto from "crypto";
 
 export const authRouter = Router();
 
-// async = work later. makes the function return a promise
-authRouter.get("/login",(_req,res) => {
-    const googleAuthUrl = new URL("https://accounts.google.com/o/oauth2/v2/auth");
 
-    // searchParams = query string part of the url
-    // .set(key,value) = add or replace one parameter
-    googleAuthUrl.searchParams.set("client_id",process.env.GOOGLE_CLIENT_ID!);
-    googleAuthUrl.searchParams.set("redirect_uri", process.env.GOOGLE_REDIRECT_URI!);
-
-    //tells google what kind of oauth response you want back
-    //"code" means: after the user logs in, send my backend an authorization code
-    googleAuthUrl.searchParams.set("response_type","code");
-
-    //tells google you're using openid for identity support
-    googleAuthUrl.searchParams.set("scope", "openid profile email");
-
-    res.redirect(googleAuthUrl.toString());
-});
-
+//express for google callback
 authRouter.get("/callback/google", async (req,res) => {
     // { code : abc123 } -> abc123
     const { code } = req.query;
@@ -103,61 +86,4 @@ authRouter.get("/callback/google", async (req,res) => {
     });
 
     res.redirect("http://localhost:5173");
-});
-
-authRouter.get("/me", async (req,res)=> {
-    const sessionId = req.cookies.session_id;
-
-    if (!sessionId) {
-        res.status(401).json({error: "Not signed in"});
-        return;
-    }
-
-    const [session] = await db `
-        SELECT * FROM sessions
-        WHERE session_id = ${sessionId}
-          AND expires_at > NOW()
-        LIMIT 1
-    `;
-
-    if (!session) {
-        res.status(401).json({ error: "Session expired or invalid" });
-        return;
-    }
-
-    const [user] = await db `
-        SELECT * FROM users
-        WHERE user_id = ${session.user_id}
-        LIMIT 1
-    `;
-
-    if (!user){
-        res.status(404).json({error:"User not found"});
-        return  
-    }
-
-    res.json({
-        user_id: user.user_id,
-        email: user.email,
-        provider_id: user.provider_id,
-    });
-});
-
-authRouter.post("/logout", async (req, res) => {
-    const sessionId = req.cookies.session_id;
-
-    if (sessionId) {
-        await db`
-            DELETE FROM sessions
-            WHERE session_id = ${sessionId}
-        `;
-    }
-
-    res.clearCookie("session_id", {
-        httpOnly: true,
-        sameSite: "lax",
-        path: "/",
-    });
-
-    res.status(200).json({ success: true });
 });
