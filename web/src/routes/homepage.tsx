@@ -1,14 +1,19 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router'
 import Navbar from '../components/Navbar'
+import { trpcClient } from "../trpcClient";
+
+
 
 export default function Homepage() {
   const [message, setMessage] = useState('Loading...')
 
   useEffect(() => {
-    fetch('/api/hello')
-      .then((res) => res.json())
-      .then((data) => setMessage(data.message))
+    async function loadMessage() {
+      const result = await trpcClient.sayHi.query();
+      setMessage(result)
+    }
+    void loadMessage()
   }, [])
 
   return (

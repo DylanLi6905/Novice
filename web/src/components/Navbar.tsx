@@ -11,7 +11,7 @@ export default function Navbar() {
     const { user, setUser } = useAuth()
 
     const handleLogout = async () => {
-        await fetch("http://localhost:8001/api/auth/logout", {
+        await fetch("http://localhost:5555/api/auth/logout", {
             method: "POST",
             credentials: "include",
         });
@@ -42,7 +42,7 @@ export default function Navbar() {
                     </button>
                 </>
             ) : (
-                <a href="http://localhost:8001/api/auth/login">Login</a>
+                <a href="http://localhost:5555/api/auth/login">Login</a>
             )}
         </nav>
     )

@@ -4,7 +4,7 @@
 // Will be replaced with generated client code once I add openapi to our codebase
 
 export async function getCurrentUser() {
-  const res = await fetch("http://localhost:8001/api/auth/me", {
+  const res = await fetch("http://localhost:5555/api/auth/me", {
     method: "GET",
     credentials: "include",
   });
