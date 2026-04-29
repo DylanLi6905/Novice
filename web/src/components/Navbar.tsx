@@ -12,14 +12,14 @@ export default function Navbar() {
     const { user, setUser } = useAuth()
 
     const handleLogout = async () => {
-        await trpcClient.user.logout.mutate();
+        await trpcClient.session.logout.mutate();
 
         setUser(null);
         window.location.href = "/";
     };
 
     const handleLogin = async () => {
-        const response = await trpcClient.user.oauthRedirectUrl.query();
+        const response = await trpcClient.session.oauthRedirectUrl.query();
         window.location.href = response.oauthRedirectUrl;
     };
 

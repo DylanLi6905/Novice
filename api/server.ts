@@ -2,8 +2,8 @@ import "dotenv/config";
 import cors from "cors";
 import express from 'express'
 import cookieParser from "cookie-parser";
-import { authRouter } from "./routes/auth/googleAuth.js";
-import { userRouter } from "./routes/user.js";
+import { authRouter } from "./routes/auth/expressAuth.js";
+import { sessionRouter } from "./routes/auth/trpcAuth.js";
 
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
 import { t } from "./trpc.js";
@@ -23,7 +23,7 @@ const appRouter = t.router({
     console.log(`Client says ${input}`)
     return true
   }),
-  user: userRouter,
+  session: sessionRouter,
 })
 
 

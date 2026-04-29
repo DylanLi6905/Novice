@@ -16,7 +16,7 @@ export function Authentication({children}: {children: ReactNode}){
   const [user, setUser] = useState<User | null>(null); 
   
   const fetchUser = async() => {
-      const res = await trpcClient.user.authMe.query();
+      const res = await trpcClient.session.authMe.query();
 
       if (!res) {
         setUser(null)
