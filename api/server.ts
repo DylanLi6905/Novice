@@ -11,8 +11,8 @@ import { t } from "./trpc.js";
 // query getting data
 // mutation for modifying data
 const appRouter = t.router({
-  sayHi: t.procedure.query(() => {
-    return "Hi"
+  sayHello: t.procedure.query(() => {
+    return "Hello World"
   }),
   logToServer: t.procedure
     .input(v => {
