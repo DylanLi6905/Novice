@@ -1,15 +1,15 @@
 import { useAuth } from "../features/auth/components/Authentication";
 import { trpcClient } from "../trpcClient";
 
-const navbarLinks= [
+const navbarLinks = [
     {label: "Home", href: "/"},
     {label: "Become an Expert", href: "/expert"},
     {label: "Our Mission", href:"/mission"},
     {label: "Search Bar", href: "/searchbar"},
-]
+];
 
 export default function Navbar() {
-    const { user, setUser } = useAuth()
+    const { user, setUser } = useAuth();
 
     const handleLogout = async () => {
         await trpcClient.session.logout.mutate();
@@ -28,12 +28,17 @@ export default function Navbar() {
             style={{
                 display: 'flex',
                 justifyContent: 'center',
+                alignItems: 'center',
                 gap: '20px',
-                padding: '12px 0',
+                flex: 1,
             }}
         >
             {navbarLinks.map((link) => (
-                <a key={link.href} href={link.href} style={{ textDecoration: 'none' }}>
+                <a
+                    key={link.href}
+                    href={link.href}
+                    style={{ textDecoration: 'none' }}
+                >
                     {link.label}
                 </a>
             ))}
@@ -45,10 +50,17 @@ export default function Navbar() {
                     </button>
                 </>
             ) : (
-                <button onClick={() => void handleLogin()} type="button">
+                <button
+                    onClick={() => void handleLogin()}
+                    type="button"
+                    style={{
+                        padding: '5px 10px',
+                        
+                    }}
+                >
                     Login
                 </button>
             )}
         </nav>
-    )
+    );
 }
