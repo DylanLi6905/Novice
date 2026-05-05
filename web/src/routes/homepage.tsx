@@ -2,6 +2,8 @@ import { Link } from 'react-router'
 import Navbar from '../components/Navbar'
 
 export default function Homepage() {
+  const message = 'Every great career starts with a conversation.'
+
   return (
     <main
       style={{

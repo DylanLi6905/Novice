@@ -1,6 +1,5 @@
 // web/src/components/expert-card/ExpertCard.tsx
 
-import React from 'react';
 import { Link } from 'react-router';
 import type { Expert, ExpertAvailability } from '../../types/expert';
 import styles from './ExpertCard.module.css';
