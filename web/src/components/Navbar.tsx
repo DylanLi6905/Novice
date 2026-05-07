@@ -1,4 +1,4 @@
-import { useAuth } from "../features/auth/components/Authentication";
+import { useAuth } from "../features/auth/components/useAuth";
 import { trpcClient } from "../trpcClient";
 
 const navbarLinks = [

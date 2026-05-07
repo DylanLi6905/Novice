@@ -1,48 +1,37 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { trpcClient } from "../../../trpcClient";
+import { CurrentUserContext, type User } from "./auth-context";
 
-type User = {
-  id: string
-  email: string
-}
-type AuthContextValue = {
-  user: User | null
-  setUser: (user: User | null) => void
-}
+export function Authentication({ children }: { children: ReactNode }) {
+  const [user, setUser] = useState<User | null>(null);
 
-const CurrentUserContext = createContext<AuthContextValue| undefined>(undefined);
+  useEffect(() => {
+    let cancelled = false;
 
-export function Authentication({children}: {children: ReactNode}){
-  const [user, setUser] = useState<User | null>(null); 
-  
-  const fetchUser = async() => {
-      const res = await trpcClient.session.authMe.query();
+    void trpcClient.session.authMe.query().then((res) => {
+      if (cancelled) {
+        return;
+      }
 
       if (!res) {
-        setUser(null)
-      } else {
-        setUser({
-          id: res.user_id,
-          email: res.email
-        })
+        setUser(null);
+        return;
       }
-      
-  }
-  useEffect(() => {
-        void fetchUser();
-      }, []);
-  
+
+      setUser({
+        id: res.user_id,
+        email: res.email,
+      });
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   return (
-    <CurrentUserContext.Provider value = {{user,setUser}}>
+    <CurrentUserContext.Provider value={{ user, setUser }}>
       {children}
     </CurrentUserContext.Provider>
-  )
-}
-
-export function useAuth() {
-  const context = useContext(CurrentUserContext)
-  if (!context) {
-    throw new Error ("useAuth must be used within Authentication")
-  }
-  return context;
+  );
 }

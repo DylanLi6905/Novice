@@ -26,6 +26,12 @@ cd api && npm run dev   # Terminal 1
 cd web && npm run dev   # Terminal 2
 ```
 
+To run the linter locally:
+
+```bash
+npm run lint
+```
+
 The app will be available at:
 
 - **Frontend**: `http://localhost:5173`
@@ -42,6 +48,7 @@ Uses PostgreSQL as the primary database for local development. The schema is ini
 - **TypeScript**: Used across both the frontend and backend
 - **tRPC**: Shared API contract between the client and server
 - **Docker Compose**: Local Postgres setup for consistent development
+- **ESLint**: Repo-level linting for both `api` and `web`
 
 ### Current Project State
 
@@ -55,5 +62,6 @@ Uses PostgreSQL as the primary database for local development. The schema is ini
 - **Frontend build**: `cd web && npm run build`
 - **Frontend dev server**: `cd web && npm run dev`
 - **Backend dev server**: `cd api && npm run dev`
+- **Lint the repo**: `npm run lint`
 
 As the project grows, additional linting, testing, and deployment workflows can be added here.
