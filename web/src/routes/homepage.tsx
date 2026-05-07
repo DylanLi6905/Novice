@@ -1,89 +1,76 @@
-import { Link } from 'react-router'
-import Navbar from '../components/Navbar'
+import { Link } from "react-router";
+import Navbar from "../components/Navbar";
+import styles from "./homepage.module.css";
+
+const trustLogos = ["UB", "BU", "NYU", "UIUC", "NU"];
+
+const featureCards = [
+  {
+    title: "Get access to standout mentors",
+    description:
+      "Choose from experienced coaches across careers, startups, product, design, and more.",
+  },
+  {
+    title: "Personalized advice for you",
+    description:
+      "Book focused one-on-one sessions and get guidance tailored to your goals and next step.",
+  },
+  {
+    title: "Save time and avoid guesswork",
+    description:
+      "Skip endless searching and get straight to the people who can help you move forward.",
+  },
+];
 
 export default function Homepage() {
-  const message = 'Every great career starts with a conversation.'
-
   return (
-    <main
-      style={{
-        minHeight: '100vh',
-        padding: '32px 24px',
-        background: '#f8fafc',
-      }}
-    >
-      <div
-        style={{
-          maxWidth: '960px',
-          margin: '0 auto',
-        }}
-      >
-        <Navbar />
+    <main className={styles.page}>
+      <section className={styles.hero}>
+        <div className={styles.heroOverlay} />
+        <div className={styles.heroInner}>
+          <Navbar theme="light" />
 
-        <section
-          style={{
-            marginTop: '48px',
-            padding: '48px 32px',
-            borderRadius: '24px',
-            background: '#ffffff',
-            boxShadow: '0 10px 30px rgba(15, 23, 42, 0.08)',
-            textAlign: 'center',
-          }}
-        >
-          <h1
-            style={{
-              margin: '0 0 12px',
-              fontSize: '3rem',
-              fontWeight: 800,
-              color: '#0f172a',
-            }}
-          >
-            Homepage
-          </h1>
+          <div className={styles.heroContent}>
+            <p className={styles.eyebrow}>career conversations that actually help</p>
+            <h1 className={styles.headline}>
+              Meet over coffee, ask sharper questions, and get advice from
+              experts who have been there before.
+            </h1>
+            <p className={styles.subheadline}>
+              Book a session with the right mentor and turn uncertainty into a
+              plan you can act on.
+            </p>
 
-          <p
-            style={{
-              margin: '0 0 24px',
-              fontSize: '1rem',
-              color: '#475569',
-            }}
-          >
-            {message}
-          </p>
-
-          <Link
-            to="/find-coach"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: '14px 24px',
-              borderRadius: '999px',
-              background: '#2563eb',
-              color: '#ffffff',
-              textDecoration: 'none',
-              fontSize: '1rem',
-              fontWeight: 700,
-              boxShadow: '0 10px 24px rgba(37, 99, 235, 0.22)',
-            }}
-          >
-            Find a coach
-          </Link>
-
-          <div style={{ marginTop: '20px' }}>
-            <Link
-              to="/dashboard"
-              style={{
-                color: '#2563eb',
-                textDecoration: 'none',
-                fontWeight: 600,
-              }}
-            >
-              Go to Dashboard
-            </Link>
+            <div className={styles.heroActions}>
+              <Link className={styles.primaryCta} to="/find-coach">
+                Find an expert
+              </Link>
+              <Link className={styles.secondaryCta} to="/dashboard">
+                Go to dashboard
+              </Link>
+            </div>
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
+
+      <section className={styles.trustBand} aria-label="Featured in">
+        {trustLogos.map((logo) => (
+          <span key={logo} className={styles.trustLogo}>
+            {logo}
+          </span>
+        ))}
+      </section>
+
+      <section className={styles.features}>
+        <div className={styles.featuresGrid}>
+          {featureCards.map((feature) => (
+            <article key={feature.title} className={styles.featureCard}>
+              <h2 className={styles.featureTitle}>{feature.title}</h2>
+              <p className={styles.featureDescription}>{feature.description}</p>
+            </article>
+          ))}
+        </div>
+      </section>
     </main>
-  )
+  );
 }

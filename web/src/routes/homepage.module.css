@@ -1,0 +1,210 @@
+.page {
+  min-height: 100vh;
+  background: #f6f1ea;
+  color: #0f172a;
+}
+
+.hero {
+  position: relative;
+  min-height: 760px;
+  background-image: url("/images/homepage-coffee.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: hidden;
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(20, 16, 11, 0.56) 0%, rgba(20, 16, 11, 0.46) 38%, rgba(20, 16, 11, 0.68) 100%),
+    radial-gradient(circle at 50% 35%, rgba(255, 255, 255, 0.06), transparent 44%);
+}
+
+.heroInner {
+  position: relative;
+  z-index: 1;
+  width: min(1200px, calc(100% - 48px));
+  margin: 0 auto;
+}
+
+.heroContent {
+  display: flex;
+  min-height: 620px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #ffffff;
+}
+
+.eyebrow {
+  margin: 0 0 1rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.headline {
+  max-width: 960px;
+  margin: 0;
+  font-size: clamp(2.2rem, 4vw, 3.8rem);
+  line-height: 0.98;
+  letter-spacing: -0.06em;
+  font-weight: 800;
+}
+
+.subheadline {
+  max-width: 680px;
+  margin: 1.5rem 0 0;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.heroActions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.primaryCta,
+.secondaryCta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 210px;
+  border-radius: 999px;
+  padding: 1rem 1.7rem;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 700;
+  transition: transform 180ms ease, opacity 180ms ease, background 180ms ease;
+}
+
+.primaryCta {
+  background: #ffffff;
+  color: #111827;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.22);
+}
+
+.secondaryCta {
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+}
+
+.primaryCta:hover,
+.secondaryCta:hover {
+  transform: translateY(-1px);
+  opacity: 0.95;
+}
+
+.trustBand {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem 3rem;
+  background: #1f1a1e;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.trustLogo {
+  text-align: center;
+  font-size: clamp(1.6rem, 2.3vw, 3rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+}
+
+.features {
+  padding: 4.5rem 2rem 5rem;
+  background:
+    linear-gradient(180deg, #f6f1ea 0%, #fbf7f0 100%);
+}
+
+.featuresGrid {
+  display: grid;
+  width: min(1100px, 100%);
+  margin: 0 auto;
+  gap: 1.4rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.featureCard {
+  padding: 2rem;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 16px 40px rgba(74, 52, 33, 0.08);
+  backdrop-filter: blur(12px);
+}
+
+.featureTitle {
+  margin: 0;
+  font-size: 1.9rem;
+  line-height: 1.15;
+  letter-spacing: -0.05em;
+}
+
+.featureDescription {
+  margin: 1rem 0 0;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: #5b534e;
+}
+
+@media (max-width: 980px) {
+  .hero {
+    min-height: 680px;
+  }
+
+  .heroInner {
+    width: min(100%, calc(100% - 32px));
+  }
+
+  .heroContent {
+    min-height: 560px;
+  }
+
+  .trustBand {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 1.75rem 1.25rem;
+  }
+
+  .featuresGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero {
+    min-height: 620px;
+    background-position: center center;
+  }
+
+  .eyebrow {
+    letter-spacing: 0.18em;
+  }
+
+  .headline {
+    font-size: 2.6rem;
+  }
+
+  .subheadline {
+    font-size: 0.98rem;
+  }
+
+  .primaryCta,
+  .secondaryCta {
+    width: 100%;
+  }
+
+  .trustBand {
+    grid-template-columns: 1fr;
+  }
+}

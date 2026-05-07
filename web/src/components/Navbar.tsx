@@ -1,14 +1,19 @@
 import { useAuth } from "../features/auth/components/useAuth";
 import { trpcClient } from "../trpcClient";
+import styles from "./Navbar.module.css";
 
 const navbarLinks = [
-    {label: "Home", href: "/"},
-    {label: "Become an Expert", href: "/expert"},
-    {label: "Our Mission", href:"/mission"},
-    {label: "Search Bar", href: "/searchbar"},
+    { label: "Home", href: "/" },
+    { label: "Become an Expert", href: "/expert" },
+    { label: "Our Mission", href: "/mission" },
+    { label: "Search Bar", href: "/searchbar" },
 ];
 
-export default function Navbar() {
+type NavbarProps = {
+    theme?: "light" | "dark";
+};
+
+export default function Navbar({ theme = "dark" }: NavbarProps) {
     const { user, setUser } = useAuth();
 
     const handleLogout = async () => {
@@ -24,43 +29,45 @@ export default function Navbar() {
     };
 
     return (
-        <nav
-            style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                gap: '20px',
-                flex: 1,
-            }}
-        >
+        <nav className={styles.navbar} data-theme={theme}>
+            <a className={styles.brand} href="/">
+                novice
+            </a>
+
+            <div className={styles.linkGroup}>
             {navbarLinks.map((link) => (
                 <a
                     key={link.href}
                     href={link.href}
-                    style={{ textDecoration: 'none' }}
+                    className={styles.navLink}
                 >
                     {link.label}
                 </a>
             ))}
+            </div>
+
+            <div className={styles.actionGroup}>
             {user ? (
                 <>
-                    <span>Logged in</span>
-                    <button onClick={() => void handleLogout()} type="button">
+                    <span className={styles.status}>Logged in</span>
+                    <button
+                        className={styles.actionButton}
+                        onClick={() => void handleLogout()}
+                        type="button"
+                    >
                         Logout
                     </button>
                 </>
             ) : (
                 <button
+                    className={styles.actionButton}
                     onClick={() => void handleLogin()}
                     type="button"
-                    style={{
-                        padding: '5px 10px',
-                        
-                    }}
                 >
-                    Login
+                    Sign up
                 </button>
             )}
+            </div>
         </nav>
     );
 }
