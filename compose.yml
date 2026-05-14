@@ -11,6 +11,19 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./api/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+  s3:
+    container_name: novice-s3
+    image: adobe/s3mock
+    environment:
+      COM_ADOBE_TESTING_S3MOCK_STORE_INITIAL_BUCKETS: novice
+      AWS_ACCESS_KEY_ID: minioadmin
+      AWS_SECRET_ACCESS_KEY: minioadmin
+      COM_ADOBE_TESTING_S3MOCK_ROOT: /s3mockroot
+    ports:
+      - "9090:9090"
+    volumes:
+      - s3_data:/s3mockroot
 
 volumes:
   postgres_data:
+  s3_data:
