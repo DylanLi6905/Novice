@@ -18,8 +18,7 @@ CREATE TABLE "sessions" (
 CREATE TABLE "experts" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"name" varchar(255) NOT NULL,
-	"slug" varchar(255) UNIQUE,
-	"avatar_key" text,
+	"avatar_url" text,
 	"headline" text,
 	"title" varchar(255),
 	"company" varchar(255),
