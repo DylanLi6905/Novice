@@ -24,12 +24,10 @@ CREATE TABLE "experts" (
 	"company" varchar(255),
 	"rating" numeric(2,1),
 	"review_count" integer DEFAULT 0 NOT NULL,
-	"availability" varchar(50),
-	"availability_label" varchar(255),
+	"availability_status" varchar(50),
 	"bio" text,
 	"expertise" jsonb,
 	"work_experience" jsonb,
 	"education" jsonb,
-	"minutes_coached" integer DEFAULT 0 NOT NULL,
 	"available_times" jsonb
 );
